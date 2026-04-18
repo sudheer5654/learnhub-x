@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LearnHub — Learn. Practice. Crack Placements.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
+:root{--bg:#f8f9fa;--bg2:#fff;--bg3:#f1f3f5;--text:#1a1a2e;--text2:#555;--text3:#888;--border:#e0e0e0;--purple:#534AB7;--pl:#EEEDFE;--pm:#AFA9EC;--green:#0F6E56;--gl:#E1F5EE;--red:#993C1D;--rl:#FAECE7;--gold:#BA7517;--gol:#FAEEDA;}
+[data-theme=dark]{--bg:#0d0d0d;--bg2:#141414;--bg3:#1c1c1c;--text:#f0ede6;--text2:#aaa;--text3:#666;--border:#2a2a2a;--pl:#1e1b3a;--gl:#0a2a22;--rl:#2a1208;--gol:#2a1e08;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;min-height:100vh;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:var(--pm);border-radius:4px;}
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
+.nav-logo{font-size:20px;font-weight:600;color:var(--purple);}
+.nav-logo span{color:var(--text);font-weight:400;}
+.theme-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s;}
+.theme-btn:hover{border-color:var(--purple);color:var(--purple);}
+.hero{text-align:center;padding:2.5rem 2rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
+.hero h1{font-size:32px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.hero h1 span{color:var(--purple);}
+.hero p{font-size:15px;color:var(--text2);max-width:500px;margin:0 auto 1.5rem;line-height:1.7;}
+.hero-stats{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;}
+.stat-num{font-size:22px;font-weight:600;color:var(--purple);}
+.stat-label{font-size:12px;color:var(--text3);margin-top:2px;}
+.subjects-bar{display:flex;gap:8px;padding:1rem 2rem;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border);}
+.subjects-bar::-webkit-scrollbar{height:3px;}
+.subject-btn{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:30px;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .2s;}
+.subject-btn:hover{border-color:var(--purple);color:var(--purple);}
+.subject-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+.main{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 200px);}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:1.25rem .75rem;overflow-y:auto;position:sticky;top:61px;height:calc(100vh - 61px);}
+.sidebar-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding:0 8px;}
+.topic-group-label{font-size:10px;font-weight:600;color:var(--purple);letter-spacing:1px;text-transform:uppercase;padding:8px 8px 4px;margin-top:8px;}
+.topic-btn{display:block;width:100%;text-align:left;padding:8px 12px;border-radius:8px;font-size:13px;color:var(--text2);background:none;border:none;cursor:pointer;font-family:inherit;margin-bottom:2px;transition:all .15s;}
+.topic-btn:hover{background:var(--bg3);color:var(--text);}
+.topic-btn.active{background:var(--pl);color:var(--purple);font-weight:500;}
+.content{padding:1.75rem;background:var(--bg);}
+.content-header{margin-bottom:1.25rem;}
+.content-header h2{font-size:21px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.content-header p{font-size:12px;color:var(--text3);}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--border);margin-bottom:1.25rem;}
+.tab-btn{padding:9px 18px;font-size:13px;font-weight:500;color:var(--text3);border:none;background:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab-btn:hover{color:var(--purple);}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple);}
+.learn-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
+.learn-card h3{font-size:16px;font-weight:600;color:var(--text);margin-bottom:10px;}
+.learn-card p{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:12px;}
+.code-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:10px;padding:1.2rem;font-family:'Fira Code',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;white-space:pre;margin-bottom:12px;}
+.output-block{background:var(--gl);border:1px solid #5DCAA5;border-radius:8px;padding:10px 14px;font-family:'Fira Code',monospace;font-size:12.5px;color:var(--green);line-height:1.6;white-space:pre;margin-bottom:12px;}
+.tip-box{background:var(--gol);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px;}
+.key-points{background:var(--pl);border-radius:10px;padding:14px;margin-bottom:12px;}
+.key-points h4{font-size:13px;font-weight:600;color:var(--purple);margin-bottom:8px;}
+.key-points ul{list-style:none;padding:0;}
+.key-points ul li{font-size:13px;color:var(--text2);padding:3px 0;line-height:1.6;}
+.key-points ul li::before{content:"→ ";color:var(--purple);font-weight:600;}
+.practice-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+.practice-card h3{font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.challenge-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px;font-size:14px;color:var(--text2);line-height:1.7;}
+.challenge-box strong{color:var(--text);}
+textarea{width:100%;height:180px;background:#1e1e2e;color:#cdd6f4;border:1px solid var(--border);border-radius:10px;padding:14px;font-family:'Fira Code',monospace;font-size:13px;resize:vertical;margin-bottom:12px;outline:none;line-height:1.6;}
+textarea:focus{border-color:var(--purple);}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+.btn-primary{background:var(--purple);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .2s;}
+.btn-primary:hover{background:#3C3489;}
+.btn-secondary{background:var(--bg3);color:var(--text2);border:1px solid var(--border);padding:9px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-secondary:hover{border-color:var(--purple);color:var(--purple);}
+.quiz-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+.quiz-progress{font-size:12px;color:var(--text3);margin-bottom:12px;}
+.quiz-q{font-size:16px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.5;}
+.quiz-options{display:grid;gap:8px;margin-bottom:14px;}
+.quiz-opt{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-size:13px;color:var(--text2);background:var(--bg3);transition:all .2s;font-family:inherit;text-align:left;width:100%;}
+.quiz-opt:hover:not([disabled]){border-color:var(--purple);color:var(--purple);background:var(--pl);}
+.quiz-opt.correct{border-color:var(--green);background:var(--gl);color:var(--green);}
+.quiz-opt.wrong{border-color:var(--red);background:var(--rl);color:var(--red);}
+.opt-badge{width:26px;height:26px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
+.quiz-fb{font-size:13px;padding:10px 14px;border-radius:8px;margin-bottom:12px;line-height:1.6;}
+.fb-correct{background:var(--gl);color:var(--green);}
+.fb-wrong{background:var(--rl);color:var(--red);}
+.quiz-complete{text-align:center;padding:2rem;}
+.quiz-score{font-size:48px;font-weight:600;color:var(--purple);margin-bottom:8px;}
+.roadmap-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+.roadmap-card h3{font-size:16px;font-weight:600;color:var(--text);margin-bottom:1.25rem;}
+.rm-item{display:flex;gap:14px;margin-bottom:18px;}
+.rm-left{display:flex;flex-direction:column;align-items:center;}
+.rm-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+.rm-dot.done{background:var(--gl);color:var(--green);border:2px solid var(--green);}
+.rm-dot.pending{background:var(--pl);color:var(--purple);border:2px solid var(--pm);}
+.rm-dot.next{background:var(--gol);color:var(--gold);border:2px solid var(--gold);}
+.rm-line{width:2px;flex:1;background:var(--border);margin:4px auto;min-height:18px;}
+.rm-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.rm-title.done-text{text-decoration:line-through;color:var(--text3);}
+.rm-sub{font-size:12px;color:var(--text3);line-height:1.5;}
+.rm-badge{display:inline-block;margin-top:5px;font-size:10px;padding:2px 8px;border-radius:20px;}
+.badge-done{background:var(--gl);color:var(--green);}
+.badge-next{background:var(--gol);color:var(--gold);}
+.badge-todo{background:var(--bg3);color:var(--text3);}
+.placement-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
+.placement-card h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.difficulty{display:inline-block;font-size:10px;padding:2px 10px;border-radius:20px;margin-bottom:10px;font-weight:500;}
+.diff-easy{background:#E1F5EE;color:#0F6E56;}
+.diff-med{background:#FAEEDA;color:#BA7517;}
+.diff-hard{background:#FAECE7;color:#993C1D;}
+.asked-by{font-size:11px;color:var(--text3);margin-bottom:10px;}
+.asked-by span{background:var(--pl);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:10px;margin-right:4px;}
+.answer-box{background:var(--bg3);border-radius:8px;padding:14px;margin-top:10px;display:none;}
+.answer-box.show{display:block;}
+.show-ans-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:7px 14px;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:8px;}
+.show-ans-btn:hover{border-color:var(--purple);color:var(--purple);}
+.hidden{display:none;}
+@media(max-width:700px){.main{grid-template-columns:1fr;}.sidebar{position:relative;top:0;height:auto;border-right:none;border-bottom:1px solid var(--border);}.hero h1{font-size:24px;}nav{padding:1rem;}.content{padding:1rem;}}
+</style>
+</head>
+<body data-theme="light">
+<nav>
+  <div class="nav-logo">Learn<span>Hub</span></div>
+  <button class="theme-btn" onclick="toggleTheme()">🌙 Theme</button>
+</nav>
+<div class="hero">
+  <h1>Learn. Practice. <span>Crack Placements.</span></h1>
+  <p>Master Java, Python, SQL, ECE, DSA and ace MNC placement interviews — all in one platform.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Subjects</div></div>
+    <div class="stat"><div class="stat-num">60+</div><div class="stat-label">Topics</div></div>
+    <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Questions</div></div>
+    <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Forever</div></div>
+  </div>
+</div>
+<div class="subjects-bar">
+  <button class="subject-btn active" onclick="selectSubject('java',this)">☕ Java</button>
+  <button class="subject-btn" onclick="selectSubject('python',this)">🐍 Python</button>
+  <button class="subject-btn" onclick="selectSubject('sql',this)">🗄️ SQL</button>
+  <button class="subject-btn" onclick="selectSubject('ece',this)">⚡ ECE Core</button>
+  <button class="subject-btn" onclick="selectSubject('dsa',this)">🔗 DSA</button>
+  <button class="subject-btn" onclick="selectSubject('placement',this)">🏢 Placement Questions</button>
+</div>
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-title" id="sidebar-title">Java Topics</div>
+    <div id="topic-list"></div>
+  </div>
+  <div class="content">
+    <div class="content-header">
+      <h2 id="content-title">Variables & Data Types</h2>
+      <p id="content-sub">Java › Learn</p>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('learn',this)">📖 Learn</button>
+      <button class="tab-btn" onclick="switchTab('practice',this)">💻 Practice</button>
+      <button class="tab-btn" onclick="switchTab('quiz',this)">🧠 Quiz</button>
+      <button class="tab-btn" onclick="switchTab('roadmap',this)">🗺️ Roadmap</button>
+    </div>
+    <div id="tab-learn"></div>
+    <div id="tab-practice" class="hidden"></div>
+    <div id="tab-quiz" class="hidden"></div>
+    <div id="tab-roadmap" class="hidden"></div>
+  </div>
+</div>
+<script>
+const DB = {
+  java:{
+    title:'Java Topics',
+    topics:['Variables & Data Types','If Conditions','Loops','Arrays','Methods','OOP — Classes & Objects','Inheritance','Polymorphism','Exception Handling','File I/O','Collections','Generics','Multithreading','JDBC (Database Connect)'],
+    content:{
+      'Variables & Data Types':{
+        explanation:'Variables are named containers that store data. Java is a strongly typed language, meaning you must declare the type of every variable before using it.',
+        detail:'Java has two categories of data types: Primitive (int, double, char, boolean, byte, short, long, float) and Reference types (String, Arrays, Objects). Primitive types store values directly in memory, while reference types store the address of the object.',
+        code:`public class Variables {\n  public static void main(String[] args) {\n    // Primitive types\n    int age = 20;\n    double cgpa = 8.5;\n    char grade = 'A';\n    boolean passed = true;\n    long bigNum = 9876543210L;\n    float temp = 36.6f;\n\n    // Reference type\n    String name = "Sudheer";\n\n    // Print using concatenation\n    System.out.println("Name: " + name);\n    System.out.println("Age: " + age);\n    System.out.println("CGPA: " + cgpa);\n    System.out.println("Grade: " + grade);\n    System.out.println("Passed: " + passed);\n\n    // Type casting\n    int x = (int) 9.99;  // x = 9\n    double y = (double) 5;  // y = 5.0\n    System.out.println("Cast int: " + x);\n    System.out.println("Cast double: " + y);\n  }\n}`,
+        output:`Name: Sudheer\nAge: 20\nCGPA: 8.5\nGrade: A\nPassed: true\nCast int: 9\nCast double: 5.0`,
+        tip:'💡 int vs double: Use int for whole numbers, double for decimals. String is not a primitive — it is a class in Java.',
+        points:['Java has 8 primitive types: byte, short, int, long, float, double, char, boolean','String is a reference type (class), not a primitive','Type casting: converting one type to another (int to double or double to int)','int range: -2,147,483,648 to 2,147,483,647','Use long when int is not enough (add L suffix)'],
+        challenge:'Declare variables for: your name, age, CGPA, college name, and whether you are currently studying. Print all in a formatted sentence.',
+        quiz:[
+          {q:'Which data type is used to store whole numbers in Java?',opts:['String','double','int','boolean'],ans:2},
+          {q:'What is the default value of an int variable in Java?',opts:['null','1','0','-1'],ans:2},
+          {q:'Which of these is a reference type in Java?',opts:['int','char','boolean','String'],ans:3},
+          {q:'What does type casting mean?',opts:['Naming a variable','Converting one type to another','Declaring two variables','Printing output'],ans:1},
+          {q:'How do you declare a long value 9000000000 in Java?',opts:['long x = 9000000000','long x = 9000000000L','int x = 9000000000','double x = 9000000000'],ans:1}
+        ]
+      },
+      'If Conditions':{
+        explanation:'If conditions allow your program to make decisions. They execute different blocks of code based on whether a condition is true or false.',
+        detail:'Java supports: if, if-else, if-else if-else, nested if, and switch-case. Conditions use comparison operators (==, !=, >, <, >=, <=) and logical operators (&& for AND, || for OR, ! for NOT).',
+        code:`public class Conditions {\n  public static void main(String[] args) {\n    int marks = 78;\n    String branch = "ECE";\n\n    // Basic if-else if\n    if (marks >= 90) {\n      System.out.println("Grade: A — Excellent!");\n    } else if (marks >= 75) {\n      System.out.println("Grade: B — Good");\n    } else if (marks >= 60) {\n      System.out.println("Grade: C — Average");\n    } else {\n      System.out.println("Grade: F — Fail");\n    }\n\n    // Logical operators\n    if (marks >= 60 && branch.equals("ECE")) {\n      System.out.println("Eligible for ECE internship");\n    }\n\n    // Ternary operator (shorthand if-else)\n    String result = (marks >= 60) ? "PASS" : "FAIL";\n    System.out.println("Result: " + result);\n\n    // Switch-case\n    int day = 3;\n    switch(day) {\n      case 1: System.out.println("Monday"); break;\n      case 2: System.out.println("Tuesday"); break;\n      case 3: System.out.println("Wednesday"); break;\n      default: System.out.println("Other day");\n    }\n  }\n}`,
+        output:`Grade: B — Good\nEligible for ECE internship\nResult: PASS\nWednesday`,
+        tip:'💡 Use == for primitive types, but use .equals() to compare Strings in Java. Using == on Strings compares memory address, not content!',
+        points:['Comparison: == != > < >= <=','Logical: && (AND) || (OR) ! (NOT)','Ternary: condition ? valueIfTrue : valueIfFalse','Switch-case for multiple exact value checks','Always use .equals() to compare String values'],
+        challenge:'Write a program that takes a CGPA value and prints: Distinction (>=9), First Class (>=7.5), Second Class (>=6), Pass (>=5), Fail (<5)',
+        quiz:[
+          {q:'Which operator means AND in Java?',opts:['&','and','&&','||'],ans:2},
+          {q:'How do you correctly compare two Strings in Java?',opts:['str1 == str2','str1.equals(str2)','str1.compare(str2)','str1 === str2'],ans:1},
+          {q:'What does the ternary operator do?',opts:['Loops through values','Shorthand for if-else','Declares 3 variables','Compares 3 values'],ans:1},
+          {q:'Which statement exits a switch-case block?',opts:['exit','return','stop','break'],ans:3}
+        ]
+      },
+      'Loops':{
+        explanation:'Loops allow you to repeat a block of code multiple times without rewriting it. Java supports three types of loops: for, while, and do-while.',
+        detail:'Use for loop when you know the exact number of iterations. Use while loop when the condition is checked before execution. Use do-while when code must run at least once. The enhanced for-each loop is great for iterating arrays and collections.',
+        code:`public class Loops {\n  public static void main(String[] args) {\n\n    // 1. For loop — known iterations\n    System.out.println("For loop:");\n    for (int i = 1; i <= 5; i++) {\n      System.out.print(i + " ");\n    }\n\n    // 2. While loop\n    System.out.println("\\nWhile loop:");\n    int x = 10;\n    while (x > 0) {\n      System.out.print(x + " ");\n      x -= 3;\n    }\n\n    // 3. Do-While (runs at least once)\n    System.out.println("\\nDo-While:");\n    int n = 1;\n    do {\n      System.out.print(n + " ");\n      n++;\n    } while (n <= 3);\n\n    // 4. Nested loop (multiplication table)\n    System.out.println("\\n5x table:");\n    for (int i = 1; i <= 5; i++) {\n      System.out.println("5 x " + i + " = " + (5*i));\n    }\n\n    // 5. Break and Continue\n    for (int i = 1; i <= 10; i++) {\n      if (i == 6) break;    // stop at 6\n      if (i % 2 == 0) continue;  // skip even\n      System.out.print(i + " "); // prints 1 3 5\n    }\n  }\n}`,
+        output:`For loop:\n1 2 3 4 5\nWhile loop:\n10 7 4 1\nDo-While:\n1 2 3\n5x table:\n5 x 1 = 5\n5 x 2 = 10\n5 x 3 = 15\n5 x 4 = 20\n5 x 5 = 25\n1 3 5`,
+        tip:'💡 break exits the loop immediately. continue skips the current iteration and moves to the next one.',
+        points:['for: best when iteration count is known','while: condition checked before each iteration','do-while: always executes at least once','break: exits loop, continue: skips current iteration','Nested loops: loops inside loops (used in 2D arrays, patterns)'],
+        challenge:'Print the following pattern using nested loops:\n* \n* * \n* * * \n* * * * \n* * * * *',
+        quiz:[
+          {q:'Which loop always executes at least once?',opts:['for','while','do-while','for-each'],ans:2},
+          {q:'What does "break" do inside a loop?',opts:['Skips current iteration','Exits the loop','Restarts the loop','Pauses execution'],ans:1},
+          {q:'What does i++ mean?',opts:['i = i - 1','i = 0','i = i + 1','i = i * 2'],ans:2},
+          {q:'Which loop is best when the number of iterations is known?',opts:['while','do-while','for','if'],ans:2}
+        ]
+      },
+      'Arrays':{
+        explanation:'An array is a fixed-size collection of elements of the same data type stored at contiguous memory locations. Arrays are indexed starting from 0.',
+        detail:'Java arrays are objects. They have a fixed size once declared. For dynamic size, use ArrayList. Arrays can be single-dimensional (1D) or multi-dimensional (2D, 3D). The Arrays class provides utility methods like sort(), fill(), copyOf().',
+        code:`import java.util.Arrays;\n\npublic class ArraysDemo {\n  public static void main(String[] args) {\n\n    // 1. Declare and initialize\n    int[] marks = {85, 92, 78, 96, 70};\n\n    // 2. Access elements\n    System.out.println("First: " + marks[0]);\n    System.out.println("Last: " + marks[marks.length - 1]);\n\n    // 3. Find max and sum\n    int max = marks[0], sum = 0;\n    for (int m : marks) {\n      sum += m;\n      if (m > max) max = m;\n    }\n    System.out.println("Max: " + max);\n    System.out.println("Average: " + (sum / marks.length));\n\n    // 4. Sort array\n    Arrays.sort(marks);\n    System.out.println("Sorted: " + Arrays.toString(marks));\n\n    // 5. 2D Array\n    int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};\n    System.out.println("Matrix[1][2] = " + matrix[1][2]);\n  }\n}`,
+        output:`First: 85\nLast: 70\nMax: 96\nAverage: 84\nSorted: [70, 78, 85, 92, 96]\nMatrix[1][2] = 6`,
+        tip:'💡 ArrayIndexOutOfBoundsException is the most common array error — it happens when you access an index that does not exist. Always check array.length before accessing.',
+        points:['Array index starts from 0','Length property: array.length (not array.length())','Arrays.sort() sorts in ascending order by default','For-each loop: for(int x : array) — cleaner way to traverse','2D array: int[][] grid = new int[rows][cols]'],
+        challenge:'Write a Java program that finds the second largest element in an array without sorting.',
+        quiz:[
+          {q:'What is the index of the last element of an array of size 5?',opts:['5','4','6','0'],ans:1},
+          {q:'Which exception occurs when you access an invalid array index?',opts:['NullPointerException','ClassCastException','ArrayIndexOutOfBoundsException','NumberFormatException'],ans:2},
+          {q:'What does Arrays.sort() sort by default?',opts:['Descending','Random order','Ascending','Alphabetical'],ans:2},
+          {q:'How do you get the length of an array in Java?',opts:['array.size()','array.length()','array.length','len(array)'],ans:2}
+        ]
+      },
+      'OOP — Classes & Objects':{
+        explanation:'Object-Oriented Programming (OOP) is a programming paradigm based on the concept of objects. A class is a blueprint, and an object is an instance of that class.',
+        detail:'OOP has 4 pillars: Encapsulation (hiding data), Inheritance (reusing code), Polymorphism (many forms), Abstraction (hiding complexity). A class contains attributes (data) and methods (behavior). Constructors initialize objects.',
+        code:`public class Student {\n  // Attributes (fields)\n  private String name;\n  private int age;\n  private double cgpa;\n\n  // Constructor\n  public Student(String name, int age, double cgpa) {\n    this.name = name;\n    this.age = age;\n    this.cgpa = cgpa;\n  }\n\n  // Getter methods\n  public String getName() { return name; }\n  public double getCgpa() { return cgpa; }\n\n  // Setter method\n  public void setCgpa(double cgpa) {\n    if (cgpa >= 0 && cgpa <= 10)\n      this.cgpa = cgpa;\n  }\n\n  // Method\n  public void displayInfo() {\n    System.out.println("Name: " + name);\n    System.out.println("Age: " + age);\n    System.out.println("CGPA: " + cgpa);\n    System.out.println("Grade: " + getGrade());\n  }\n\n  private String getGrade() {\n    if (cgpa >= 9) return "Distinction";\n    else if (cgpa >= 7.5) return "First Class";\n    else return "Second Class";\n  }\n\n  public static void main(String[] args) {\n    Student s1 = new Student("Sudheer", 20, 8.5);\n    Student s2 = new Student("Ravi", 21, 9.2);\n    s1.displayInfo();\n    System.out.println("---");\n    s2.displayInfo();\n  }\n}`,
+        output:`Name: Sudheer\nAge: 20\nCGPA: 8.5\nGrade: First Class\n---\nName: Ravi\nAge: 21\nCGPA: 9.2\nGrade: Distinction`,
+        tip:'💡 Use private for attributes and public for methods — this is Encapsulation. The this keyword refers to the current object.',
+        points:['Class = blueprint, Object = instance','Constructor: same name as class, no return type','this keyword refers to the current object','private attributes + public getters/setters = Encapsulation','new keyword creates objects in heap memory'],
+        challenge:'Create a BankAccount class with balance, accountNumber, holderName. Add methods: deposit(), withdraw(), getBalance(), display().',
+        quiz:[
+          {q:'What is the purpose of a constructor in Java?',opts:['To destroy objects','To initialize objects','To inherit classes','To sort data'],ans:1},
+          {q:'Which access modifier hides data from outside the class?',opts:['public','static','private','protected'],ans:2},
+          {q:'What does the "new" keyword do?',opts:['Deletes an object','Creates an object','Declares a variable','Calls a method'],ans:1},
+          {q:'What does "this" keyword refer to?',opts:['Parent class','Current method','Current object','Static variable'],ans:2}
+        ]
+      }
+    },
+    roadmap:[
+      {done:true,title:'Setup & Hello World',sub:'Install JDK 21, VS Code, run first program'},
+      {done:true,title:'Variables & Data Types',sub:'int, String, double, boolean, casting'},
+      {done:true,title:'If Conditions & Switch',sub:'if/else if/else, ternary, switch-case'},
+      {done:false,title:'Loops',sub:'for, while, do-while, break, continue',next:true},
+      {done:false,title:'Arrays',sub:'1D, 2D arrays, Arrays class methods'},
+      {done:false,title:'Methods',sub:'Parameters, return types, overloading'},
+      {done:false,title:'OOP — Classes & Objects',sub:'Class, object, constructor, this'},
+      {done:false,title:'Inheritance & Polymorphism',sub:'extends, super, method overriding'},
+      {done:false,title:'Exception Handling',sub:'try-catch-finally, custom exceptions'},
+      {done:false,title:'Collections',sub:'ArrayList, HashMap, LinkedList'},
+      {done:false,title:'JDBC',sub:'Connect Java with MySQL database'},
+      {done:false,title:'Build Project',sub:'Student Result Management System'}
+    ]
+  },
+  python:{
+    title:'Python Topics',
+    topics:['Variables & Print','Data Types','If Else','Loops','Lists & Tuples','Dictionaries & Sets','Functions','String Methods','File Handling','OOP in Python','List Comprehension','Libraries (pandas, numpy)','Exception Handling'],
+    content:{
+      'Variables & Print':{
+        explanation:'Python is dynamically typed — no need to declare types. Python automatically determines the type based on the value assigned.',
+        detail:'Python supports various data types: int, float, str, bool, list, tuple, dict, set. The type() function tells you the type of any variable. f-strings (formatted strings) are the modern way to embed variables in text.',
+        code:`# Basic variables — no type declaration needed\nname = "Sudheer"\nage = 20\ncgpa = 8.5\npassed = True\n\n# Multiple assignment\nx, y, z = 10, 20, 30\n\n# Print methods\nprint("Name:", name)\nprint("Age =", age)\nprint(f"CGPA: {cgpa:.2f}")  # f-string with 2 decimal places\nprint(f"Hello {name}, you are {age} years old!")\n\n# Type checking\nprint(type(name))    # <class 'str'>\nprint(type(age))     # <class 'int'>\nprint(type(cgpa))    # <class 'float'>\nprint(type(passed))  # <class 'bool'>\n\n# Type conversion\nnum_str = "42"\nnum_int = int(num_str)   # "42" → 42\nprint(num_int + 8)       # 50`,
+        output:`Name: Sudheer\nAge = 20\nCGPA: 8.50\nHello Sudheer, you are 20 years old!\n<class 'str'>\n<class 'int'>\n<class 'float'>\n<class 'bool'>\n50`,
+        tip:'💡 Python is case-sensitive: name, Name, and NAME are three different variables. Boolean values are True and False (capital T and F).',
+        points:['No type declaration needed — Python infers it automatically','f-strings: f"Hello {name}" — modern and clean way to format','type() function checks data type','int(), float(), str() convert between types','Multiple assignment: a, b = 10, 20'],
+        challenge:'Write a Python script that stores your name, college, CGPA and prints a well-formatted introduction using f-strings.',
+        quiz:[
+          {q:'How do you print in Python?',opts:['System.out.println()','console.log()','printf()','print()'],ans:3},
+          {q:'What is an f-string?',opts:['A file string','A formatted string literal','A function string','A float string'],ans:1},
+          {q:'Which function checks the type of a variable?',opts:['typeof()','getType()','type()','typeOf()'],ans:2},
+          {q:'In Python, boolean values are written as?',opts:['true/false','TRUE/FALSE','True/False','yes/no'],ans:2}
+        ]
+      },
+      'Lists & Tuples':{
+        explanation:'Lists are ordered, mutable collections that can hold items of any type. Tuples are like lists but immutable (cannot be changed after creation).',
+        detail:'Lists are one of the most used data structures in Python. They support indexing, slicing, and many built-in methods. Tuples are faster than lists and used when data should not change (like coordinates, RGB values).',
+        code:`# LISTS\nmarks = [85, 90, 78, 92, 88]\nfruits = ["apple", "banana", "mango"]\nmixed = [1, "hello", 3.14, True]\n\n# Access\nprint(marks[0])       # 85 (first)\nprint(marks[-1])      # 88 (last)\nprint(marks[1:3])     # [90, 78] (slicing)\n\n# Useful functions\nprint(len(marks))     # 5\nprint(max(marks))     # 92\nprint(min(marks))     # 78\nprint(sum(marks))     # 433\n\n# List methods\nmarks.append(95)      # Add to end\nmarks.insert(0, 70)   # Insert at index 0\nmarks.remove(78)      # Remove value\nmarks.sort()          # Sort ascending\nmarks.sort(reverse=True)  # Sort descending\nprint(marks)\n\n# TUPLES (immutable)\ncoordinates = (10.5, 20.3)\nrgb = (255, 128, 0)\nprint(coordinates[0])  # 10.5\n# coordinates[0] = 5  → ERROR! Tuples are immutable`,
+        output:`85\n88\n[90, 78]\n5\n92\n78\n433\n[95, 92, 90, 88, 85, 70]\n10.5`,
+        tip:'💡 Negative indexing: marks[-1] gives the last element, marks[-2] gives second last. Very useful in Python!',
+        points:['List: mutable, ordered, allows duplicates','Tuple: immutable, ordered, faster than list','Slicing: list[start:end] (end is exclusive)','Negative index: -1 is last, -2 is second last','append() adds to end, insert() adds at position'],
+        challenge:'Create a list of 6 subject marks. Find max, min, average. Remove the lowest mark and print the updated list.',
+        quiz:[
+          {q:'Which method adds an element at the end of a list?',opts:['add()','push()','insert()','append()'],ans:3},
+          {q:'What is the difference between list and tuple?',opts:['No difference','List is immutable, tuple is mutable','List is mutable, tuple is immutable','Tuple stores strings only'],ans:2},
+          {q:'What does marks[-1] return?',opts:['Error','First element','Last element','Second element'],ans:2},
+          {q:'Which function returns the number of elements in a list?',opts:['count()','size()','length()','len()'],ans:3}
+        ]
+      }
+    },
+    roadmap:[
+      {done:false,title:'Install Python 3.x',sub:'Download, install, set up VS Code',next:true},
+      {done:false,title:'Variables & Print',sub:'Syntax, data types, f-strings'},
+      {done:false,title:'Conditions & Loops',sub:'if/elif/else, for, while'},
+      {done:false,title:'Lists, Tuples, Dicts',sub:'Core data structures'},
+      {done:false,title:'Functions',sub:'def, parameters, return, *args'},
+      {done:false,title:'OOP in Python',sub:'class, __init__, inheritance'},
+      {done:false,title:'File Handling',sub:'Read/write CSV and text files'},
+      {done:false,title:'Libraries',sub:'pandas, numpy, matplotlib'},
+      {done:false,title:'Use in Project',sub:'Generate reports with pandas'}
+    ]
+  },
+  sql:{
+    title:'SQL Topics',
+    topics:['Database Basics','CREATE TABLE','INSERT Data','SELECT Query','WHERE & Filtering','UPDATE & DELETE','ORDER BY & LIMIT','GROUP BY & HAVING','JOINs','Subqueries','Aggregate Functions','Indexes & Keys','Stored Procedures'],
+    content:{
+      'Database Basics':{
+        explanation:'A database is an organized collection of structured data stored electronically. A DBMS (Database Management System) manages databases. SQL is the language used to interact with relational databases.',
+        detail:'Popular relational databases: MySQL, PostgreSQL, SQLite, Oracle, MS SQL Server. A database contains tables. Each table has columns (schema/structure) and rows (data/records). The PRIMARY KEY uniquely identifies each row.',
+        code:`-- SQL is NOT case sensitive, but UPPERCASE for keywords is convention\n\n-- Show all databases\nSHOW DATABASES;\n\n-- Create a new database\nCREATE DATABASE college;\n\n-- Use the database\nUSE college;\n\n-- Create a students table\nCREATE TABLE students (\n  id        INT PRIMARY KEY AUTO_INCREMENT,\n  name      VARCHAR(100) NOT NULL,\n  branch    VARCHAR(50),\n  marks     INT CHECK (marks BETWEEN 0 AND 100),\n  email     VARCHAR(100) UNIQUE,\n  joined_on DATE DEFAULT CURRENT_DATE\n);\n\n-- Show table structure\nDESC students;`,
+        output:`Database created.\nTable 'students' created.\n\nField      | Type         | Null | Key\nid         | INT          | NO   | PRI\nname       | VARCHAR(100) | NO   |\nbranch     | VARCHAR(50)  | YES  |\nmarks      | INT          | YES  |\nemail      | VARCHAR(100) | YES  | UNI\njoined_on  | DATE         | YES  |`,
+        tip:'💡 AUTO_INCREMENT automatically generates unique IDs. NOT NULL means the field cannot be empty. UNIQUE means no two rows can have the same value.',
+        points:['PRIMARY KEY: uniquely identifies each row','AUTO_INCREMENT: auto-generates sequential numbers','NOT NULL: field must have a value','UNIQUE: no duplicate values allowed','VARCHAR(n): variable-length string up to n characters'],
+        challenge:'Create a table called "products" with: id (auto), name, price, category, stock_quantity, created_at.',
+        quiz:[
+          {q:'What does PRIMARY KEY do?',opts:['Sorts the table','Uniquely identifies each row','Encrypts data','Links two tables'],ans:1},
+          {q:'Which SQL keyword prevents empty values?',opts:['UNIQUE','AUTO_INCREMENT','NOT NULL','DEFAULT'],ans:2},
+          {q:'What does AUTO_INCREMENT do?',opts:['Sorts automatically','Generates unique IDs automatically','Increases all values','Indexes the column'],ans:1},
+          {q:'Which command shows the structure of a table?',opts:['SHOW TABLE','STRUCTURE','DESC','EXPLAIN TABLE'],ans:2}
+        ]
+      },
+      'SELECT Query':{
+        explanation:'SELECT is the most frequently used SQL command. It retrieves data from one or more tables. You can select all columns or specific ones, filter with WHERE, and sort with ORDER BY.',
+        detail:'The basic SELECT syntax: SELECT columns FROM table WHERE condition ORDER BY column. The asterisk (*) means all columns. You can use aliases (AS) to rename columns in output. DISTINCT removes duplicate values.',
+        code:`-- Select all columns\nSELECT * FROM students;\n\n-- Select specific columns\nSELECT name, branch, marks FROM students;\n\n-- Column alias (rename in output)\nSELECT name AS "Student Name",\n       marks AS "Score"\nFROM students;\n\n-- Remove duplicates\nSELECT DISTINCT branch FROM students;\n\n-- Filter with WHERE\nSELECT name, marks\nFROM students\nWHERE marks >= 75;\n\n-- Multiple conditions\nSELECT name, marks\nFROM students\nWHERE marks >= 60 AND branch = 'ECE';\n\n-- Sort results\nSELECT name, marks\nFROM students\nORDER BY marks DESC;  -- highest first\n\n-- Limit results\nSELECT name, marks\nFROM students\nORDER BY marks DESC\nLIMIT 3;  -- top 3 students`,
+        output:`id | name    | branch | marks\n1  | Sudheer | ECE    | 89\n2  | Ravi    | CSE    | 76\n3  | Priya   | EEE    | 92\n\nTop 3 by marks:\nPriya  - 92\nSudheer - 89\nRavi   - 76`,
+        tip:'💡 ORDER BY column DESC gives highest first, ASC gives lowest first. LIMIT n returns only n rows — useful for finding top 5 or top 10.',
+        points:['SELECT * gets all columns (use specific columns in real apps)','WHERE filters rows based on condition','AND / OR combine multiple conditions','ORDER BY ASC (default) or DESC','LIMIT n: return only n rows','DISTINCT: removes duplicate rows'],
+        challenge:'Write queries to: 1) Get all ECE students with marks above 70, 2) Get top 5 students by marks, 3) Get unique list of all branches.',
+        quiz:[
+          {q:'Which SQL command retrieves data from a table?',opts:['GET','FETCH','SELECT','RETRIEVE'],ans:2},
+          {q:'What does ORDER BY marks DESC do?',opts:['Sorts ascending','Sorts randomly','Sorts descending','Filters marks'],ans:2},
+          {q:'What does DISTINCT do?',opts:['Deletes duplicates','Removes duplicate rows in result','Selects unique tables','Counts rows'],ans:1},
+          {q:'Which clause filters rows in a SELECT query?',opts:['HAVING','GROUP BY','ORDER BY','WHERE'],ans:3}
+        ]
+      }
+    },
+    roadmap:[
+      {done:false,title:'Install MySQL',sub:'MySQL server + MySQL Workbench GUI',next:true},
+      {done:false,title:'Database & Table Basics',sub:'CREATE DATABASE, CREATE TABLE, data types'},
+      {done:false,title:'INSERT & SELECT',sub:'Add data and retrieve it'},
+      {done:false,title:'WHERE & Filtering',sub:'Filter data with conditions'},
+      {done:false,title:'UPDATE & DELETE',sub:'Modify and remove records'},
+      {done:false,title:'JOINs',sub:'INNER, LEFT, RIGHT JOIN — combine tables'},
+      {done:false,title:'Aggregate Functions',sub:'COUNT, SUM, AVG, MAX, MIN with GROUP BY'},
+      {done:false,title:'Subqueries & Indexes',sub:'Nested queries, performance optimization'},
+      {done:false,title:'Connect with Java',sub:'JDBC — link Java application with MySQL'}
+    ]
+  },
+  ece:{
+    title:'ECE Core Topics',
+    groups:{
+      'Circuit Theory':["Ohm's Law & KVL/KCL","Thevenin & Norton","AC Circuits & Phasors","Power Analysis"],
+      'Electronic Devices':['Diodes & Applications','BJT Transistors','MOSFETs','Op-Amps'],
+      'Digital Electronics':['Logic Gates & Boolean','Flip Flops','Counters & Registers','ADC & DAC'],
+      'Signals & Systems':['Signals Classification','Fourier Series','Laplace Transform','Z-Transform'],
+      'Communication':['Analog Modulation (AM/FM)','Digital Modulation','Sampling Theorem','Multiplexing'],
+      'VLSI Design':['CMOS Technology','Logic Synthesis','VLSI Design Flow','Verilog HDL Basics'],
+      'Embedded Systems':['Microcontroller Basics','Arduino Programming','Sensors & Interfacing','RTOS Basics'],
+      'Microprocessors':['8085 Architecture','8086 Architecture','Memory Organization','Interrupts & I/O']
+    },
+    content:{
+      "Ohm's Law & KVL/KCL":{
+        explanation:"Ohm's Law is the foundation of circuit analysis. It defines the relationship between voltage, current, and resistance. KVL and KCL are Kirchhoff's laws used to analyze complex circuits.",
+        detail:"KVL (Kirchhoff's Voltage Law): Sum of all voltages in a closed loop = 0. KCL (Kirchhoff's Current Law): Sum of all currents entering a node = sum leaving. These laws are used with Ohm's law to solve any circuit.",
+        code:`OHM'S LAW:\n  V = I × R\n  I = V / R\n  R = V / I\n\nExample 1:\n  V = 12V, R = 4Ω\n  I = 12/4 = 3A\n  P = V×I = 12×3 = 36W\n\nKVL (Kirchhoff's Voltage Law):\n  In a closed loop: ΣV = 0\n  Source voltages = Sum of voltage drops\n\n  Example: Loop with 10V source, R1=2Ω, R2=3Ω\n  10 = I×2 + I×3 = 5I\n  I = 2A\n  V_R1 = 4V, V_R2 = 6V\n\nKCL (Kirchhoff's Current Law):\n  At any node: ΣI_in = ΣI_out\n\n  Example: Node A receives 5A and 3A\n  Current leaving = 5 + 3 = 8A`,
+        output:`I = 3 Amperes\nP = 36 Watts\nKVL: I = 2A, V_R1 = 4V, V_R2 = 6V\nKCL: Total leaving node = 8A`,
+        tip:"💡 Memory: VIR triangle — cover the one you want to find. P=VI for power. KVL=voltages in loop, KCL=currents at node.",
+        points:["Ohm's Law: V=IR, I=V/R, R=V/I, P=VI=I²R=V²/R","KVL: algebraic sum of voltages in a closed loop = 0","KCL: sum of currents at a node = 0","Series circuit: same current, voltages add","Parallel circuit: same voltage, currents add"],
+        challenge:'A circuit has 24V supply with R1=6Ω and R2=4Ω in series. Find: total resistance, current, voltage across each resistor, and power dissipated.',
+        quiz:[
+          {q:"Ohm's Law states V = ?",opts:['I + R','I / R','I × R','I - R'],ans:2},
+          {q:'KCL states that at any node?',opts:['Sum of voltages = 0','Sum of currents in = sum of currents out','Current is constant','Voltage is zero'],ans:1},
+          {q:'Unit of resistance is?',opts:['Volt','Ampere','Watt','Ohm'],ans:3},
+          {q:'Power formula is?',opts:['P = V/I','P = R×I','P = V×I','P = V+I'],ans:2}
+        ]
+      },
+      'Logic Gates & Boolean':{
+        explanation:'Logic gates are the fundamental building blocks of all digital circuits and computers. They operate on binary values (0 and 1) and perform Boolean algebra operations.',
+        detail:'Every digital system — from calculators to supercomputers — is built from logic gates. NAND and NOR are called universal gates because any Boolean function can be implemented using only these gates.',
+        code:`BASIC GATES — Truth Tables:\n\nAND (·): Output 1 only if ALL inputs = 1\n  A  B  | Y\n  0  0  | 0\n  0  1  | 0\n  1  0  | 0\n  1  1  | 1\n\nOR (+): Output 1 if ANY input = 1\n  A  B  | Y\n  0  0  | 0\n  0  1  | 1\n  1  0  | 1\n  1  1  | 1\n\nNOT: Inverts input\n  A  | Y\n  0  | 1\n  1  | 0\n\nNAND (Universal Gate): NOT of AND\n  1  1  | 0  (opposite of AND)\n\nXOR: Output 1 when inputs are DIFFERENT\n  0  0  | 0\n  0  1  | 1\n  1  0  | 1\n  1  1  | 0\n\nBoolean Simplification:\n  Y = A·B + A·B' = A(B+B') = A·1 = A`,
+        output:`AND(1,1)=1  AND(0,1)=0\nOR(0,1)=1   OR(0,0)=0\nNOT(0)=1    NOT(1)=0\nNAND(1,1)=0 XOR(1,0)=1`,
+        tip:'💡 NAND is the most important gate — modern CMOS chips are built almost entirely from NAND gates because they are easiest to fabricate.',
+        points:['AND: all inputs must be 1','OR: any input being 1 is enough','NAND/NOR: universal gates (can build any circuit)','XOR: parity checker, used in adders','De Morgan: NOT(A·B) = NOT(A)+NOT(B)'],
+        challenge:"Build a half adder using logic gates. Draw truth table for SUM and CARRY outputs.",
+        quiz:[
+          {q:'Which gate outputs 1 only when both inputs are 1?',opts:['OR','NOT','AND','XOR'],ans:2},
+          {q:'NAND is called a universal gate because?',opts:['It is fastest','Any logic can be built using only NAND','It uses least power','It has most inputs'],ans:1},
+          {q:'XOR gate output is 1 when?',opts:['Both inputs 0','Both inputs 1','Inputs are different','Any input is 1'],ans:2},
+          {q:"De Morgan's theorem for NOT(A+B) = ?",opts:["NOT(A) · NOT(B)",'NOT(A) + NOT(B)','A · B','A + B'],ans:0}
+        ]
+      },
+      'CMOS Technology':{
+        explanation:'CMOS (Complementary Metal-Oxide-Semiconductor) is the dominant technology used to build modern integrated circuits. It uses pairs of PMOS and NMOS transistors to implement logic gates.',
+        detail:'CMOS is preferred because it consumes very low static power (only when switching). Modern chips have billions of CMOS transistors. VLSI (Very Large Scale Integration) refers to chips with millions+ transistors.',
+        code:`CMOS INVERTER (NOT gate):\n  - PMOS transistor (top): connects VDD to output\n  - NMOS transistor (bottom): connects output to GND\n  - Both gates connected to input\n\n  When Input = 0:\n    PMOS ON  → Output connected to VDD (logic 1)\n    NMOS OFF → Output not grounded\n    Output = 1 ✓\n\n  When Input = 1:\n    PMOS OFF → Output not connected to VDD\n    NMOS ON  → Output connected to GND (logic 0)\n    Output = 0 ✓\n\nCMOS Advantages:\n  → Very low power consumption\n  → High noise immunity\n  → Works at wide voltage range\n  → Scalable (can shrink transistor size)\n\nMoore's Law:\n  Transistor count doubles every ~2 years\n  1971: 2,300 transistors (Intel 4004)\n  2023: 100 billion transistors (Apple M2 Ultra)`,
+        output:`CMOS Inverter verified:\nInput 0 → Output 1\nInput 1 → Output 0\nPower only consumed during switching = Low power!`,
+        tip:"💡 CMOS doesn't draw current in stable states (0 or 1) — only during transitions. This is why modern chips can have billions of transistors without melting.",
+        points:['CMOS uses PMOS + NMOS transistor pairs','Pull-up network: PMOS (connects to VDD)','Pull-down network: NMOS (connects to GND)','Static power ≈ 0 (only dynamic power during switching)','Feature size: current chips at 3nm and 2nm process'],
+        challenge:'Explain how a CMOS NAND gate is constructed using PMOS and NMOS transistors. Draw the circuit.',
+        quiz:[
+          {q:'CMOS stands for?',opts:['Common Metal Oxide Silicon','Complementary Metal-Oxide-Semiconductor','Controlled MOS','Circuit Metal Oxide System'],ans:1},
+          {q:'Why is CMOS preferred for modern chips?',opts:['High speed only','Low static power consumption','Cheap to manufacture','Simple design'],ans:1},
+          {q:'PMOS transistor conducts when gate voltage is?',opts:['High (1)','Low (0)','Floating','Negative'],ans:1},
+          {q:'What does VLSI stand for?',opts:['Variable Logic Signal Interface','Very Large Scale Integration','Very Low Signal Intensity','Voltage Level Switching Interface'],ans:1}
+        ]
+      },
+      'Arduino Programming':{
+        explanation:'Arduino is an open-source electronics platform based on easy-to-use hardware and software. It uses a simplified version of C++ and is widely used in embedded systems projects and prototyping.',
+        detail:'An Arduino program has two main functions: setup() runs once at startup for initialization, and loop() runs continuously forever. Arduino can read sensors (analogRead, digitalRead) and control outputs (analogWrite, digitalWrite).',
+        code:`// Arduino Blink LED (Hello World of embedded)\nvoid setup() {\n  pinMode(13, OUTPUT);  // Pin 13 as output\n  Serial.begin(9600);   // Start serial monitor\n}\n\nvoid loop() {\n  digitalWrite(13, HIGH);  // LED ON\n  delay(1000);             // Wait 1 second\n  digitalWrite(13, LOW);   // LED OFF\n  delay(1000);             // Wait 1 second\n}\n\n// ---- Read Ultrasonic Sensor (like your project!) ----\nconst int trigPin = 9;\nconst int echoPin = 10;\n\nvoid setup() {\n  pinMode(trigPin, OUTPUT);\n  pinMode(echoPin, INPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  // Send ultrasonic pulse\n  digitalWrite(trigPin, LOW); delayMicroseconds(2);\n  digitalWrite(trigPin, HIGH); delayMicroseconds(10);\n  digitalWrite(trigPin, LOW);\n\n  // Read echo time, calculate distance\n  long duration = pulseIn(echoPin, HIGH);\n  float distance = duration * 0.034 / 2;\n  Serial.print("Distance: ");\n  Serial.print(distance);\n  Serial.println(" cm");\n  delay(500);\n}`,
+        output:`Distance: 25.30 cm\nDistance: 24.80 cm\nDistance: 26.10 cm\n(Updates every 500ms)`,
+        tip:'💡 Arduino is perfect for your Servo + Ultrasonic Sensor project! The pulseIn() function measures the time for the echo to return, which gives you the distance.',
+        points:['setup(): runs once — for initialization','loop(): runs forever — main code goes here','digitalWrite: HIGH=5V, LOW=0V','analogRead: reads 0-1023 (0 to 5V)','analogWrite: PWM output 0-255 (for servo, motor speed)'],
+        challenge:'Write Arduino code to control a servo motor angle based on ultrasonic sensor distance. 0-10cm → 0°, 10-20cm → 90°, >20cm → 180°',
+        quiz:[
+          {q:'Which Arduino function runs once at startup?',opts:['loop()','start()','setup()','begin()'],ans:2},
+          {q:'What does digitalWrite(pin, HIGH) do?',opts:['Reads pin value','Sets pin to 5V','Sets pin to 0V','Reads analog value'],ans:1},
+          {q:'analogRead() returns values in range?',opts:['0 to 255','0 to 1023','0 to 5','0 to 100'],ans:1},
+          {q:'What function measures pulse duration on a pin?',opts:['readPulse()','getPulse()','pulseIn()','measurePulse()'],ans:2}
+        ]
+      },
+      'Verilog HDL Basics':{
+        explanation:'Verilog is a Hardware Description Language (HDL) used to model and design digital systems. Unlike C or Java which describe algorithms, Verilog describes hardware — gates, flip flops, and circuits.',
+        detail:'Verilog is used in VLSI design to describe digital circuits at different levels: behavioral (what it does), dataflow (how data flows), and structural (gate-level connections). All major chip companies use Verilog or VHDL.',
+        code:`// Verilog: AND gate module\nmodule and_gate(\n  input  a,\n  input  b,\n  output y\n);\n  assign y = a & b;  // dataflow style\nendmodule\n\n// Verilog: 4-bit Full Adder\nmodule adder_4bit(\n  input  [3:0] a,\n  input  [3:0] b,\n  input        cin,\n  output [3:0] sum,\n  output       cout\n);\n  assign {cout, sum} = a + b + cin;\nendmodule\n\n// Verilog: D Flip Flop\nmodule d_ff(\n  input  clk,\n  input  d,\n  output reg q\n);\n  always @(posedge clk) begin\n    q <= d;  // Q captures D on rising clock edge\n  end\nendmodule\n\n// Testbench snippet\ninitial begin\n  a=0; b=0; #10;  // wait 10ns\n  a=1; b=0; #10;\n  a=1; b=1; #10;\n  $finish;\nend`,
+        output:`Simulation results:\na=0,b=0 → y=0\na=1,b=0 → y=0\na=1,b=1 → y=1  ✓ (AND gate verified)`,
+        tip:'💡 Verilog uses "assign" for combinational logic and "always @(posedge clk)" for sequential (flip flop) logic. The <= operator is non-blocking assignment used inside always blocks.',
+        points:['Verilog describes hardware, not algorithms','module/endmodule defines a circuit block','assign: combinational/dataflow logic','always @(posedge clk): sequential logic (flip flops)','#10 means delay 10 time units in simulation','Testbench: code written to test a Verilog module'],
+        challenge:'Write a Verilog module for a 2-to-1 multiplexer: output y = sel ? b : a',
+        quiz:[
+          {q:'What does Verilog describe?',opts:['Algorithms','Software programs','Hardware circuits','Operating systems'],ans:2},
+          {q:'Which keyword defines a clock-triggered block in Verilog?',opts:['begin','module','always @(posedge clk)','assign'],ans:2},
+          {q:'What is a testbench in Verilog?',opts:['A hardware component','Code to simulate and test a module','A flip flop type','A synthesis tool'],ans:1},
+          {q:'assign statement is used for?',opts:['Sequential logic','Flip flops','Combinational logic','Clock generation'],ans:2}
+        ]
+      },
+      '8085 Architecture':{
+        explanation:'The Intel 8085 is an 8-bit microprocessor. It is a foundational topic in ECE and is widely asked in placement exams. Understanding 8085 helps you understand how all computers work at the hardware level.',
+        detail:'8085 has an 8-bit data bus and 16-bit address bus (can address 64KB memory). It has 6 general purpose registers (B,C,D,E,H,L), Accumulator (A), Program Counter (PC), Stack Pointer (SP), and Flag register.',
+        code:`8085 KEY FEATURES:\n  Data Bus    : 8-bit  (transfers data)\n  Address Bus : 16-bit (addresses 2^16 = 64KB)\n  Registers   : A, B, C, D, E, H, L\n  Special     : PC, SP, Flags\n\nREGISTERS:\n  A (Accumulator) : 8-bit, main arithmetic register\n  B,C / D,E / H,L : 8-bit general purpose (pair as BC, DE, HL)\n  PC (Program Counter)  : holds address of next instruction\n  SP (Stack Pointer)    : holds top of stack address\n\n8085 ASSEMBLY INSTRUCTIONS:\n  MVI A, 05H    ; Load 05 (hex) into A\n  MVI B, 03H    ; Load 03 into B\n  ADD B         ; A = A + B = 08H\n  STA 2000H     ; Store A at memory address 2000H\n  HLT           ; Stop\n\nFLAG REGISTER (5 flags):\n  S  : Sign flag    (1 if result negative)\n  Z  : Zero flag    (1 if result = 0)\n  AC : Aux Carry    (carry from bit 3 to 4)\n  P  : Parity flag  (1 if even number of 1s)\n  CY : Carry flag   (1 if carry out)`,
+        output:`Program execution:\nMVI A, 05H → A = 05\nMVI B, 03H → B = 03\nADD B      → A = 08, CY=0, Z=0\nSTA 2000H  → Memory[2000H] = 08\nHLT        → Program stopped`,
+        tip:'💡 Most asked in interviews: Address bus = 16-bit (64KB), Data bus = 8-bit, 5 flags (SZ,AC,P,CY), MVI loads immediate data, MOV copies between registers.',
+        points:['8-bit microprocessor, 16-bit address bus (64KB RAM)','Accumulator (A): main register for arithmetic','5 flags: Sign, Zero, Aux Carry, Parity, Carry','MVI: Move Immediate, MOV: copy register to register','PC: tracks next instruction, SP: stack top'],
+        challenge:'Write an 8085 assembly program to add two 8-bit numbers stored at memory locations 2000H and 2001H and store result at 2002H.',
+        quiz:[
+          {q:'8085 has how many bits of data bus?',opts:['16','4','8','32'],ans:2},
+          {q:'Which register holds the address of the next instruction?',opts:['Stack Pointer','Accumulator','Program Counter','Flag Register'],ans:2},
+          {q:'8085 address bus is 16-bit, so it can address how much memory?',opts:['32KB','128KB','64KB','256KB'],ans:2},
+          {q:'Which flag is set when the result of an operation is zero?',opts:['Sign flag','Carry flag','Parity flag','Zero flag'],ans:3}
+        ]
+      }
+    },
+    roadmap:[
+      {done:true,title:'Circuit Theory',sub:"Ohm's law, KVL, KCL, Thevenin"},
+      {done:true,title:'Electronic Devices',sub:'Diodes, BJT, MOSFET, Op-Amps'},
+      {done:false,title:'Digital Electronics',sub:'Logic gates, flip flops, counters',next:true},
+      {done:false,title:'Signals & Systems',sub:'Fourier, Laplace, Z-transform'},
+      {done:false,title:'Communication Systems',sub:'AM, FM, digital modulation'},
+      {done:false,title:'VLSI Design',sub:'CMOS, Verilog, design flow'},
+      {done:false,title:'Embedded Systems',sub:'Arduino, sensors, RTOS'},
+      {done:false,title:'Microprocessors',sub:'8085, 8086 architecture & programming'}
+    ]
+  },
+  dsa:{
+    title:'DSA Topics',
+    topics:['Arrays','Strings','Linked Lists','Stacks','Queues','Binary Trees','Binary Search Tree','Graphs','Sorting Algorithms','Searching Algorithms','Recursion','Dynamic Programming'],
+    content:{
+      'Arrays':{
+        explanation:'Arrays are the most fundamental data structure and the most commonly asked topic in placement interviews. They store elements of the same type at contiguous memory locations.',
+        detail:'Key array concepts for interviews: traversal, searching, sorting, two-pointer technique, sliding window, prefix sum. Almost every DSA problem either uses arrays directly or arrays of other structures.',
+        code:`// Key Array Operations for Interviews\n\n// 1. Find max and min\nint[] arr = {3, 7, 1, 9, 4, 6};\nint max = arr[0], min = arr[0];\nfor (int x : arr) {\n  if (x > max) max = x;\n  if (x < min) min = x;\n}\nSystem.out.println("Max: "+max+", Min: "+min);\n\n// 2. Reverse an array\nint left = 0, right = arr.length - 1;\nwhile (left < right) {\n  int temp = arr[left];\n  arr[left] = arr[right];\n  arr[right] = temp;\n  left++; right--;\n}\n\n// 3. Two Sum (very common interview problem)\n// Find two numbers that add to target\nint target = 10;\nfor (int i = 0; i < arr.length; i++) {\n  for (int j = i+1; j < arr.length; j++) {\n    if (arr[i] + arr[j] == target)\n      System.out.println(arr[i]+"+"+arr[j]+"="+target);\n  }\n}\n\n// 4. Find duplicates\nint[] a2 = {1,2,3,2,4,3,5};\nSet<Integer> seen = new HashSet<>();\nfor (int x : a2)\n  if (!seen.add(x)) System.out.println("Dup: "+x);`,
+        output:`Max: 9, Min: 1\nReversed: [6,4,9,1,7,3]\n4+6=10  (two sum)\nDup: 2\nDup: 3`,
+        tip:'💡 Two-pointer technique: Use two index variables moving towards each other — solves many array problems in O(n) instead of O(n²).',
+        points:['Time: access O(1), search O(n), insert/delete O(n)','Two-pointer: left & right pointers moving inward','Sliding window: window of fixed/variable size moved across array','Prefix sum: precompute cumulative sums for range queries','Always check: empty array, single element, duplicates'],
+        challenge:'Given an array, find the subarray with the maximum sum (Kadane\'s Algorithm). Example: [-2,1,-3,4,-1,2,1,-5,4] → answer is 6 ([4,-1,2,1]).',
+        quiz:[
+          {q:'Time complexity of accessing an element by index in an array?',opts:['O(n)','O(log n)','O(1)','O(n²)'],ans:2},
+          {q:'What technique uses two index variables moving towards each other?',opts:['Sliding window','Prefix sum','Two-pointer','Divide and conquer'],ans:2},
+          {q:'What is the time complexity of linear search?',opts:['O(1)','O(log n)','O(n)','O(n²)'],ans:2},
+          {q:'Which exception occurs when accessing invalid array index?',opts:['NullPointerException','IndexError','ArrayIndexOutOfBoundsException','OverflowException'],ans:2}
+        ]
+      },
+      'Sorting Algorithms':{
+        explanation:'Sorting algorithms arrange elements in a specific order. They are heavily tested in interviews. You must know the time complexity, space complexity, and use cases for each.',
+        detail:'Most important for interviews: Bubble Sort (easy to explain), Merge Sort (O(n log n), stable), Quick Sort (O(n log n) average, in-place), and knowing when to use which. Java\'s Arrays.sort() uses TimSort (hybrid of merge + insertion sort).',
+        code:`// 1. BUBBLE SORT — O(n²) — simplest\nvoid bubbleSort(int[] arr) {\n  int n = arr.length;\n  for (int i = 0; i < n-1; i++)\n    for (int j = 0; j < n-i-1; j++)\n      if (arr[j] > arr[j+1]) {\n        int t = arr[j]; arr[j]=arr[j+1]; arr[j+1]=t;\n      }\n}\n\n// 2. MERGE SORT — O(n log n) — stable\nvoid mergeSort(int[] arr, int l, int r) {\n  if (l < r) {\n    int mid = (l + r) / 2;\n    mergeSort(arr, l, mid);\n    mergeSort(arr, mid+1, r);\n    merge(arr, l, mid, r);\n  }\n}\n\n// 3. QUICK SORT — O(n log n) avg\nvoid quickSort(int[] arr, int low, int high) {\n  if (low < high) {\n    int pi = partition(arr, low, high);\n    quickSort(arr, low, pi-1);\n    quickSort(arr, pi+1, high);\n  }\n}\n\n// COMPLEXITY CHEATSHEET:\n// Bubble:    O(n²)     O(n²)     O(1)   Stable\n// Selection: O(n²)     O(n²)     O(1)   Not stable\n// Insertion: O(n²)     O(n)      O(1)   Stable\n// Merge:     O(n logn) O(n logn) O(n)   Stable\n// Quick:     O(n logn) O(n²)     O(logn) Not stable`,
+        output:`Input:  [64, 34, 25, 12, 22, 11, 90]\nSorted: [11, 12, 22, 25, 34, 64, 90]\n\nTime Complexity:\nBubble Sort  = O(n²)\nMerge Sort   = O(n log n)\nQuick Sort   = O(n log n) avg`,
+        tip:'💡 Interview tip: If asked which sort to use — Merge Sort for stability, Quick Sort for speed (in practice), and always mention their complexities.',
+        points:['Bubble: O(n²) — easiest but slowest','Merge: O(n log n) — stable, uses extra space','Quick: O(n log n) avg, O(n²) worst — in-place','Stable sort: equal elements maintain original order','Java Arrays.sort() uses TimSort (O(n log n))'],
+        challenge:'Implement insertion sort and explain why it is efficient for nearly-sorted arrays.',
+        quiz:[
+          {q:'What is the time complexity of Merge Sort?',opts:['O(n²)','O(n)','O(n log n)','O(log n)'],ans:2},
+          {q:'Which sorting algorithm is stable and O(n log n)?',opts:['Quick Sort','Bubble Sort','Merge Sort','Selection Sort'],ans:2},
+          {q:'What is the worst case of Quick Sort?',opts:['O(n log n)','O(n)','O(n²)','O(log n)'],ans:2},
+          {q:'Which sort is best for nearly sorted data?',opts:['Bubble Sort','Insertion Sort','Merge Sort','Quick Sort'],ans:1}
+        ]
+      }
+    },
+    roadmap:[
+      {done:false,title:'Arrays & Strings',sub:'Most common in placement interviews',next:true},
+      {done:false,title:'Linked Lists',sub:'Singly, doubly, circular'},
+      {done:false,title:'Stacks & Queues',sub:'LIFO/FIFO, applications'},
+      {done:false,title:'Trees',sub:'Binary tree, BST, traversals (BFS/DFS)'},
+      {done:false,title:'Sorting Algorithms',sub:'Bubble, merge, quick sort + complexities'},
+      {done:false,title:'Searching',sub:'Linear O(n), Binary O(log n)'},
+      {done:false,title:'Recursion',sub:'Base case, recursive calls, backtracking'},
+      {done:false,title:'Dynamic Programming',sub:'Memoization, tabulation — hard but important'},
+      {done:false,title:'Practice on LeetCode',sub:'Solve 50+ easy/medium problems before placement'}
+    ]
+  },
+  placement:{
+    title:'Placement Questions',
+    topics:['Java Interview Questions','Python Interview Questions','SQL Interview Questions','DSA Interview Questions','ECE/VLSI Questions','Aptitude & Reasoning','HR Round Questions','TCS Questions','Infosys Questions','Wipro Questions','Accenture Questions','Amazon Questions'],
+    content:{
+      'Java Interview Questions':{
+        questions:[
+          {q:'What is the difference between JDK, JRE and JVM?',diff:'easy',companies:['TCS','Infosys','Wipro','Accenture'],ans:'JVM (Java Virtual Machine): Runs Java bytecode. It is platform-specific.\nJRE (Java Runtime Environment): JVM + libraries needed to run Java programs.\nJDK (Java Development Kit): JRE + development tools (compiler javac, debugger). You need JDK to develop Java programs.'},
+          {q:'What is the difference between == and .equals() in Java?',diff:'easy',companies:['TCS','Wipro','HCL'],ans:'== compares memory references (addresses). For primitives, it compares values. For objects like String, == checks if they point to the same object in memory.\n.equals() compares the actual content/values.\nExample: String a = new String("hi"); String b = new String("hi");\na == b → false (different objects)\na.equals(b) → true (same content)'},
+          {q:'What are the 4 pillars of OOP?',diff:'easy',companies:['TCS','Infosys','Wipro','Cognizant','Accenture'],ans:'1. Encapsulation: Hiding data using private access + public getters/setters\n2. Inheritance: A child class inherits properties of parent class (extends keyword)\n3. Polymorphism: Same method behaves differently — method overloading (compile-time) and method overriding (runtime)\n4. Abstraction: Hiding implementation details — achieved via abstract classes and interfaces'},
+          {q:'What is the difference between abstract class and interface?',diff:'medium',companies:['Infosys','Amazon','Wipro'],ans:'Abstract Class:\n- Can have both abstract and concrete methods\n- Can have constructors\n- Single inheritance only\n- Use when classes share common code\n\nInterface:\n- All methods are abstract (before Java 8)\n- No constructors\n- Multiple interfaces can be implemented\n- Use to define a contract/capability\n\nRule: Use interface for IS-A relationship, abstract class for partial implementation.'},
+          {q:'What is multithreading? What is the difference between process and thread?',diff:'medium',companies:['Amazon','Infosys','TCS'],ans:'Process: An independent program in execution with its own memory space.\nThread: A lightweight unit within a process that shares the process memory.\n\nMultithreading: Running multiple threads simultaneously to improve performance.\nIn Java: extend Thread class or implement Runnable interface.\nstart() creates new thread, run() contains thread code.'},
+          {q:'What is a NullPointerException and how to avoid it?',diff:'easy',companies:['TCS','Wipro','Accenture','HCL'],ans:'NullPointerException occurs when you try to use a reference variable that points to null (nothing).\nExample: String s = null; s.length() → NullPointerException\n\nAvoid by:\n1. Always check for null before using object: if(s != null)\n2. Use Optional class (Java 8+)\n3. Initialize variables properly\n4. Use null-safe methods'}
+        ]
+      },
+      'SQL Interview Questions':{
+        questions:[
+          {q:'What is the difference between WHERE and HAVING?',diff:'medium',companies:['TCS','Infosys','Accenture','Amazon'],ans:'WHERE: Filters rows BEFORE grouping. Cannot use aggregate functions.\nHAVING: Filters groups AFTER GROUP BY. Can use aggregate functions.\n\nExample:\nSELECT branch, AVG(marks) FROM students\nWHERE marks > 50          -- filter rows first\nGROUP BY branch\nHAVING AVG(marks) > 75;   -- filter groups after'},
+          {q:'What are the different types of JOINs?',diff:'medium',companies:['TCS','Infosys','Wipro','Amazon','Cognizant'],ans:'INNER JOIN: Returns rows that match in BOTH tables.\nLEFT JOIN: Returns ALL rows from left table + matching from right (NULL if no match).\nRIGHT JOIN: Returns ALL rows from right table + matching from left.\nFULL OUTER JOIN: Returns ALL rows from both tables.\nSELF JOIN: A table joined with itself.\nCROSS JOIN: Every row from table1 combined with every row from table2.'},
+          {q:'What is the difference between DELETE, TRUNCATE and DROP?',diff:'easy',companies:['TCS','Wipro','HCL','Infosys'],ans:'DELETE: Removes specific rows (with WHERE). Can be rolled back. Triggers fire. Slower.\nDELETE FROM students WHERE marks < 40;\n\nTRUNCATE: Removes ALL rows. Cannot be rolled back. Faster. Resets AUTO_INCREMENT.\nTRUNCATE TABLE students;\n\nDROP: Deletes the entire table including structure.\nDROP TABLE students;'},
+          {q:'What is normalization? Explain 1NF, 2NF, 3NF.',diff:'hard',companies:['Amazon','Infosys','Wipro'],ans:'Normalization: Process of organizing database to reduce redundancy and improve integrity.\n\n1NF: Each column must have atomic (single) values. No repeating groups.\n2NF: Must be in 1NF + no partial dependencies (non-key columns depend on full primary key).\n3NF: Must be in 2NF + no transitive dependencies (non-key column depends only on primary key, not on another non-key column).'}
+        ]
+      },
+      'DSA Interview Questions':{
+        questions:[
+          {q:'What is the time complexity of Binary Search?',diff:'easy',companies:['Amazon','TCS','Infosys','Wipro'],ans:'Binary Search: O(log n) time, O(1) space.\nRequirement: Array must be SORTED.\n\nHow it works:\n1. Check middle element\n2. If target = mid → found\n3. If target < mid → search left half\n4. If target > mid → search right half\n5. Repeat until found or array exhausted\n\nWhy O(log n)? Each step halves the search space. 1000 elements → max 10 steps.'},
+          {q:'What is a stack? Where is it used?',diff:'easy',companies:['TCS','Infosys','HCL','Accenture'],ans:'Stack: LIFO (Last In First Out) data structure.\nOperations: push() - add top, pop() - remove top, peek() - view top. All O(1).\n\nReal world uses:\n1. Function call stack (recursion)\n2. Undo/Redo in editors\n3. Browser back button\n4. Balanced parentheses checking\n5. Expression evaluation (infix to postfix)'},
+          {q:'Explain Linked List vs Array. When to use which?',diff:'medium',companies:['Amazon','Infosys','Wipro','Cognizant'],ans:'Array:\n- Fixed size (in Java)\n- Random access O(1)\n- Insert/Delete O(n) — need to shift\n- Cache friendly (contiguous memory)\n\nLinked List:\n- Dynamic size\n- Access O(n) — must traverse from head\n- Insert/Delete O(1) at known position\n- Extra memory for pointers\n\nUse Array: when you need fast access by index.\nUse Linked List: when you need frequent insertions/deletions.'},
+          {q:'What is Dynamic Programming? Give an example.',diff:'hard',companies:['Amazon','Google','Infosys'],ans:"Dynamic Programming: Optimization technique that solves complex problems by breaking them into simpler overlapping subproblems and storing results (memoization) to avoid recomputation.\n\nExample — Fibonacci:\nNaive: O(2^n) — recalculates same values\nDP: O(n) — stores previous results\n\nint fib(int n) {\n  int[] dp = new int[n+1];\n  dp[0]=0; dp[1]=1;\n  for(int i=2;i<=n;i++)\n    dp[i] = dp[i-1] + dp[i-2];\n  return dp[n];\n}\n\nUsed in: Longest Common Subsequence, Knapsack, Shortest Path"}
+        ]
+      },
+      'TCS Questions':{
+        questions:[
+          {q:'TCS: What is the output of this Java code?\nint x=5; System.out.println(x++ + " " + ++x);',diff:'medium',companies:['TCS'],ans:'Output: 5 7\n\nExplanation:\nx++ is post-increment: uses current value (5) first, then increments to 6.\n++x is pre-increment: increments first (6→7), then uses 7.\nSo: 5 + " " + 7 → "5 7"'},
+          {q:'TCS: Find the output: int a[]={1,2,3}; System.out.println(a[3]);',diff:'easy',companies:['TCS'],ans:'Output: ArrayIndexOutOfBoundsException\n\nExplanation: Array a has 3 elements at indices 0, 1, 2.\nAccessing index 3 is out of bounds → runtime exception.'},
+          {q:'TCS NQT: Reverse a string without using built-in reverse function.',diff:'medium',companies:['TCS'],ans:'public static String reverse(String s) {\n  StringBuilder result = new StringBuilder();\n  for (int i = s.length()-1; i >= 0; i--) {\n    result.append(s.charAt(i));\n  }\n  return result.toString();\n}\n// Input: "Sudheer" → Output: "reehduS"'},
+          {q:'TCS: What is the difference between final, finally and finalize?',diff:'medium',companies:['TCS','Wipro'],ans:'final: keyword — variable cannot be reassigned, method cannot be overridden, class cannot be extended.\n\nfinally: block in try-catch — always executes whether exception occurs or not. Used to close resources.\n\nfinalize: method — called by garbage collector before destroying an object (deprecated in newer Java).'}
+        ]
+      },
+      'Infosys Questions':{
+        questions:[
+          {q:'Infosys: Write a program to check if a number is palindrome.',diff:'easy',companies:['Infosys'],ans:'public static boolean isPalindrome(int n) {\n  int original = n, reversed = 0;\n  while (n > 0) {\n    reversed = reversed * 10 + n % 10;\n    n /= 10;\n  }\n  return original == reversed;\n}\n// 121 → palindrome ✓, 123 → not palindrome'},
+          {q:'Infosys: What is the output? for(int i=0;i<3;i++) System.out.print(i+" ");',diff:'easy',companies:['Infosys','TCS'],ans:'Output: 0 1 2\n\nLoop starts at i=0, prints 0, increments to 1, prints 1, increments to 2, prints 2, increments to 3, condition 3<3 is false, loop ends.'},
+          {q:'Infosys Springboard: Explain SOLID principles.',diff:'hard',companies:['Infosys','Accenture'],ans:'SOLID Principles:\nS — Single Responsibility: A class should have only one reason to change.\nO — Open/Closed: Open for extension, closed for modification.\nL — Liskov Substitution: Child class should work wherever parent class is expected.\nI — Interface Segregation: Prefer many specific interfaces over one general interface.\nD — Dependency Inversion: Depend on abstractions, not concrete classes.'}
+        ]
+      },
+      'HR Round Questions':{
+        questions:[
+          {q:'Tell me about yourself.',diff:'easy',companies:['All Companies'],ans:'Structure: Present → Past → Future\n\nExample:\n"I am G. Sudheer, currently pursuing B.Tech in ECE at Panimalar Engineering College, graduating in 2027. I have a strong interest in electronics and software development. During my studies I have worked on projects including a Servo Motor Control system using Arduino and ultrasonic sensors, and built a personal portfolio website. I am passionate about learning new technologies and I am now looking to apply my skills in a professional environment at [Company Name]."'},
+          {q:'Why do you want to join [Company Name]?',diff:'easy',companies:['All Companies'],ans:'Tips:\n1. Research the company before the interview\n2. Mention specific things about the company (tech, culture, growth)\n3. Connect it to your career goals\n\nExample for TCS:\n"TCS is one of India\'s largest IT companies and a global leader. I am impressed by TCS\'s commitment to learning through TCS iON and the various technologies they work with. I believe TCS will provide me the platform to grow both technically and professionally, and contribute to real-world projects at scale."'},
+          {q:'What are your strengths and weaknesses?',diff:'easy',companies:['All Companies'],ans:'Strengths (give examples):\n- Problem solver: mention a project/challenge you solved\n- Quick learner: built this website in one night!\n- Team player: mention group projects\n\nWeakness (honest but with improvement):\n"I sometimes spend too much time perfecting small details. But I have been working on managing my time better by setting deadlines for myself and moving forward even when something is not 100% perfect."'},
+          {q:'Where do you see yourself in 5 years?',diff:'easy',companies:['All Companies'],ans:'"In 5 years, I see myself as a skilled software/electronics engineer with expertise in [relevant field]. I want to take on more responsibility, possibly in a team lead or senior developer role. I also plan to continue upskilling — perhaps pursuing certifications or a masters degree — while contributing meaningfully to [Company Name]\'s growth." \n\nTip: Show ambition but also loyalty to the company.'}
+        ]
+      }
+    },
+    roadmap:[
+      {done:false,title:'Core Subjects',sub:'Java, Python, SQL, DSA basics',next:true},
+      {done:false,title:'Online Assessments',sub:'TCS NQT, Infosys Springboard pattern'},
+      {done:false,title:'Aptitude Practice',sub:'Quantitative, logical reasoning, verbal'},
+      {done:false,title:'Technical Interview',sub:'DSA problems, OOP concepts, project discussion'},
+      {done:false,title:'HR Round',sub:'Self intro, strengths, company research'},
+      {done:false,title:'Mock Interviews',sub:'Practice with friends or online platforms'}
+    ]
+  }
+};
+
+let curSubject = 'java';
+let curTopic = '';
+let curTab = 'learn';
+let qIdx = 0, qAnswered = false, qScore = 0;
+
+function toggleTheme(){
+  const b = document.body;
+  b.setAttribute('data-theme', b.getAttribute('data-theme')==='dark'?'light':'dark');
+}
+
+function selectSubject(s, el){
+  curSubject = s;
+  qIdx=0; qAnswered=false; qScore=0;
+  document.querySelectorAll('.subject-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const sub = DB[s];
+  document.getElementById('sidebar-title').textContent = sub.title;
+  // Pick first topic
+  if(s==='ece' && sub.groups){
+    const firstGroup = Object.keys(sub.groups)[0];
+    curTopic = sub.groups[firstGroup][0];
+  } else {
+    curTopic = sub.topics[0];
+  }
+  renderTopics();
+  renderTab();
+}
+
+function renderTopics(){
+  const list = document.getElementById('topic-list');
+  const sub = DB[curSubject];
+  let html = '';
+  if(curSubject==='ece' && sub.groups){
+    for(const [grp, topics] of Object.entries(sub.groups)){
+      html += `<div class="topic-group-label">${grp}</div>`;
+      topics.forEach(t=>{
+        html += `<button class="topic-btn ${t===curTopic?'active':''}" onclick="selTopic(this,'${t.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">${t}</button>`;
+      });
+    }
+  } else {
+    sub.topics.forEach(t=>{
+      html += `<button class="topic-btn ${t===curTopic?'active':''}" onclick="selTopic(this,'${t.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">${t}</button>`;
+    });
+  }
+  list.innerHTML = html;
+}
+
+function selTopic(el, t){
+  curTopic = t;
+  qIdx=0; qAnswered=false; qScore=0;
+  document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('content-title').textContent = t;
+  document.getElementById('content-sub').textContent = curSubject.toUpperCase() + ' › ' + curTab.charAt(0).toUpperCase()+curTab.slice(1);
+  renderTab();
+}
+
+function switchTab(tab, el){
+  curTab = tab;
+  qIdx=0; qAnswered=false; qScore=0;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  ['learn','practice','quiz','roadmap'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('hidden', t!==tab);
+  });
+  renderTab();
+}
+
+function renderTab(){
+  if(curTab==='learn') renderLearn();
+  else if(curTab==='practice') renderPractice();
+  else if(curTab==='quiz') renderQuiz();
+  else renderRoadmap();
+}
+
+function getC(){ return (DB[curSubject].content||{})[curTopic]||null; }
+
+function renderLearn(){
+  const el = document.getElementById('tab-learn');
+  // Placement subject — show question cards
+  if(curSubject==='placement'){
+    const c = getC();
+    if(!c || !c.questions){
+      el.innerHTML = `<div class="learn-card"><h3>${curTopic}</h3><p>Questions for this topic coming soon!</p></div>`;
+      return;
+    }
+    el.innerHTML = c.questions.map((q,i)=>`
+      <div class="placement-card">
+        <h3>Q${i+1}. ${q.q}</h3>
+        <div>
+          <span class="difficulty diff-${q.diff}">${q.diff.toUpperCase()}</span>
+        </div>
+        <div class="asked-by">Asked by: ${q.companies.map(c=>`<span>${c}</span>`).join('')}</div>
+        <button class="show-ans-btn" onclick="toggleAns(this)">Show Answer</button>
+        <div class="answer-box"><pre style="font-family:inherit;white-space:pre-wrap;font-size:13px;line-height:1.7;color:var(--text2)">${q.ans}</pre></div>
+      </div>
+    `).join('');
+    return;
+  }
+  const c = getC();
+  if(!c){
+    el.innerHTML = `<div class="learn-card"><h3>${curTopic}</h3><p>Content for this topic is coming soon! This is a great topic to search on YouTube or GeeksForGeeks.</p><div class="tip-box">💡 Search: "${curTopic} ${curSubject} tutorial" on YouTube.</div></div>`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="learn-card">
+      <h3>${curTopic}</h3>
+      <p>${c.explanation}</p>
+      ${c.detail?`<p style="margin-top:-4px;">${c.detail}</p>`:''}
+      ${c.points?`<div class="key-points"><h4>Key Points</h4><ul>${c.points.map(p=>`<li>${p}</li>`).join('')}</ul></div>`:''}
+      <div class="code-label">Example Code</div>
+      <div class="code-block">${c.code}</div>
+      <div class="code-label">Output</div>
+      <div class="output-block">${c.output}</div>
+      ${c.tip?`<div class="tip-box">${c.tip}</div>`:''}
+    </div>
+    ${c.quiz&&c.quiz.length>0?renderInlineQuiz(c.quiz):''}
+  `;
+}
+
+function renderInlineQuiz(questions){
+  return `
+    <div class="learn-card" id="inline-quiz-wrap">
+      <h3>Quick Quiz — Test Yourself</h3>
+      <div id="iq-content"></div>
+    </div>
+    <script>
+      (function(){
+        let iqIdx=0,iqScore=0,iqAnswered=false;
+        const qs=${JSON.stringify(questions)};
+        function showQ(){
+          if(iqIdx>=qs.length){
+            document.getElementById('iq-content').innerHTML='<div class="quiz-complete"><div class="quiz-score">'+iqScore+'/'+qs.length+'</div><div style="color:var(--text2);font-size:14px;margin-bottom:12px;">'+(iqScore===qs.length?'🎉 Perfect!':iqScore>=qs.length/2?'👍 Good job!':'📚 Keep practicing')+'</div><button class="btn-primary" onclick="iqIdx=0;iqScore=0;iqAnswered=false;showQ()">Retry</button></div>';
+            return;
+          }
+          const q=qs[iqIdx];
+          document.getElementById('iq-content').innerHTML='<div class="quiz-progress">Question '+(iqIdx+1)+' of '+qs.length+' | Score: '+iqScore+'</div><div class="quiz-q">'+q.q+'</div><div class="quiz-options">'+q.opts.map((o,i)=>'<button class="quiz-opt" id="iqo'+i+'" onclick="ansIQ('+i+','+q.ans+')"><div class="opt-badge">'+String.fromCharCode(65+i)+'</div><span>'+o+'</span></button>').join('')+'</div><div id="iq-fb"></div>';
+        }
+        window.ansIQ=function(sel,cor){
+          if(iqAnswered)return;
+          iqAnswered=true;
+          if(sel===cor)iqScore++;
+          document.querySelectorAll('#iq-content .quiz-opt').forEach((el,i)=>{
+            el.disabled=true;
+            if(i===cor)el.classList.add('correct');
+            else if(i===sel&&i!==cor)el.classList.add('wrong');
+          });
+          document.getElementById('iq-fb').innerHTML='<div class="quiz-fb '+(sel===cor?'fb-correct':'fb-wrong')+'">'+(sel===cor?'✅ Correct!':'❌ Wrong. Correct: '+String.fromCharCode(65+cor))+'</div><button class="btn-primary" onclick="iqIdx++;iqAnswered=false;showQ()">'+(iqIdx+1>=qs.length?'See Score':'Next →')+'</button>';
+        };
+        window.showQ=showQ;
+        showQ();
+      })();
+    <\/script>
+  `;
+}
+
+function toggleAns(btn){
+  const box = btn.nextElementSibling;
+  box.classList.toggle('show');
+  btn.textContent = box.classList.contains('show') ? 'Hide Answer' : 'Show Answer';
+}
+
+function renderPractice(){
+  const c = getC();
+  if(curSubject==='placement'){
+    document.getElementById('tab-practice').innerHTML=`<div class="practice-card"><h3>Practice Mode</h3><p style="color:var(--text2);font-size:14px;">For placement questions, practice by reading the question, thinking of your answer, then clicking "Show Answer" in the Learn tab. Also practice on:</p><br><ul style="padding-left:1.5rem;color:var(--text2);font-size:14px;line-height:2;"><li><a href="https://leetcode.com" target="_blank" style="color:var(--purple)">LeetCode — DSA problems</a></li><li><a href="https://www.geeksforgeeks.org" target="_blank" style="color:var(--purple)">GeeksForGeeks — company-wise questions</a></li><li><a href="https://www.indiabix.com" target="_blank" style="color:var(--purple)">IndiaBix — aptitude practice</a></li><li><a href="https://www.hackerrank.com" target="_blank" style="color:var(--purple)">HackerRank — coding challenges</a></li></ul></div>`;
+    return;
+  }
+  document.getElementById('tab-practice').innerHTML=`
+    <div class="practice-card">
+      <h3>Practice: ${curTopic}</h3>
+      ${c?`<div class="challenge-box"><strong>Challenge:</strong> ${c.challenge}</div>`:'<p style="color:var(--text2);font-size:14px;">Write code to practice this topic.</p>'}
+      <textarea id="code-input" placeholder="Write your ${curSubject.toUpperCase()} code here...\n\nTip: Try solving the challenge above step by step!"></textarea>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="runCode()">▶ Run / Check</button>
+        <button class="btn-secondary" onclick="showHint()">💡 Hint</button>
+        <button class="btn-secondary" onclick="showSol()">👁 Solution</button>
+      </div>
+      <div id="run-out" style="margin-top:14px;"></div>
+    </div>
+  `;
+}
+
+function runCode(){
+  const code = document.getElementById('code-input').value.trim();
+  const out = document.getElementById('run-out');
+  if(!code){out.innerHTML='<div class="tip-box">Please write some code first!</div>';return;}
+  out.innerHTML=`<div class="tip-box">To run ${curSubject.toUpperCase()} code, use an online compiler:<br><br>
+  ☕ <strong>Java:</strong> <a href="https://www.jdoodle.com/online-java-compiler" target="_blank" style="color:var(--purple)">jdoodle.com</a><br>
+  🐍 <strong>Python:</strong> <a href="https://replit.com" target="_blank" style="color:var(--purple)">replit.com</a><br>
+  🗄️ <strong>SQL:</strong> <a href="https://www.db-fiddle.com" target="_blank" style="color:var(--purple)">db-fiddle.com</a><br>
+  🔗 <strong>C/Java:</strong> <a href="https://www.onlinegdb.com" target="_blank" style="color:var(--purple)">onlinegdb.com</a><br><br>
+  Copy your code and paste it there!</div>`;
+}
+
+function showHint(){
+  const c = getC();
+  document.getElementById('run-out').innerHTML=`<div class="tip-box">💡 Hint: ${c?c.tip:'Break the problem into small steps. Start with what you know!'}</div>`;
+}
+
+function showSol(){
+  const c = getC();
+  if(!c){document.getElementById('run-out').innerHTML='<div class="tip-box">Solution coming soon!</div>';return;}
+  document.getElementById('run-out').innerHTML=`<div style="margin-top:8px;"><div class="code-label">Solution</div><div class="code-block">${c.code}</div></div>`;
+}
+
+function renderQuiz(){
+  const el = document.getElementById('tab-quiz');
+  if(curSubject==='placement'){
+    el.innerHTML=`<div class="quiz-wrap"><p style="color:var(--text2);font-size:14px;">For placement prep, go to the Learn tab and practice with the Q&A cards. Test yourself by reading the question and answering before clicking "Show Answer".</p></div>`;
+    return;
+  }
+  const c = getC();
+  const questions = c?.quiz;
+  if(!questions||questions.length===0){
+    el.innerHTML=`<div class="quiz-wrap"><p style="color:var(--text2);font-size:14px;">No quiz for this topic yet. Check the Learn tab — it has a built-in quiz at the bottom!</p></div>`;
+    return;
+  }
+  if(qIdx>=questions.length){
+    el.innerHTML=`<div class="quiz-wrap"><div class="quiz-complete"><div class="quiz-score">${qScore}/${questions.length}</div><div style="font-size:16px;font-weight:500;margin-bottom:8px;">${qScore===questions.length?'🎉 Perfect Score!':qScore>=questions.length/2?'👍 Good Job!':'📚 Keep Practicing!'}</div><div style="font-size:14px;color:var(--text2);margin-bottom:18px;">You got ${qScore} out of ${questions.length} correct.</div><button class="btn-primary" onclick="qIdx=0;qAnswered=false;qScore=0;renderQuiz()">Try Again</button></div></div>`;
+    return;
+  }
+  const q = questions[qIdx];
+  el.innerHTML=`
+    <div class="quiz-wrap">
+      <div class="quiz-progress">Question ${qIdx+1} of ${questions.length} &nbsp;|&nbsp; Score: ${qScore}</div>
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((o,i)=>`<button class="quiz-opt" id="qo${i}" onclick="ansQ(${i},${q.ans})"><div class="opt-badge">${String.fromCharCode(65+i)}</div><span>${o}</span></button>`).join('')}
+      </div>
+      <div id="q-fb"></div>
+    </div>
+  `;
+}
+
+function ansQ(sel,cor){
+  if(qAnswered)return;
+  qAnswered=true;
+  if(sel===cor)qScore++;
+  document.querySelectorAll('.quiz-opt').forEach((el,i)=>{
+    el.disabled=true;
+    if(i===cor)el.classList.add('correct');
+    else if(i===sel&&i!==cor)el.classList.add('wrong');
+  });
+  document.getElementById('q-fb').innerHTML=`<div class="quiz-fb ${sel===cor?'fb-correct':'fb-wrong'}">${sel===cor?'✅ Correct! Well done.':'❌ Wrong. Correct: <strong>'+String.fromCharCode(65+cor)+': '+document.getElementById('qo'+cor).querySelector('span').textContent+'</strong>'}</div><button class="btn-primary" onclick="qIdx++;qAnswered=false;renderQuiz()">${qIdx+1>=((getC()?.quiz)||[]).length?'See Results':'Next Question →'}</button>`;
+}
+
+function renderRoadmap(){
+  const rm = DB[curSubject].roadmap;
+  const el = document.getElementById('tab-roadmap');
+  el.innerHTML=`<div class="roadmap-card"><h3>${DB[curSubject].title} — Roadmap</h3>${rm.map((s,i)=>`
+    <div class="rm-item">
+      <div class="rm-left">
+        <div class="rm-dot ${s.done?'done':s.next?'next':'pending'}">${s.done?'✓':s.next?'→':i+1}</div>
+        ${i<rm.length-1?'<div class="rm-line"></div>':''}
+      </div>
+      <div style="padding-top:4px;">
+        <div class="rm-title ${s.done?'done-text':''}">${s.title}</div>
+        <div class="rm-sub">${s.sub}</div>
+        <span class="rm-badge ${s.done?'badge-done':s.next?'badge-next':'badge-todo'}">${s.done?'✓ Done':s.next?'→ Up Next':'Pending'}</span>
+      </div>
+    </div>
+  `).join('')}</div>`;
+}
+
+// Init
+(function(){
+  const sub = DB[curSubject];
+  curTopic = sub.topics[0];
+  document.getElementById('sidebar-title').textContent = sub.title;
+  document.getElementById('content-title').textContent = curTopic;
+  renderTopics();
+  renderLearn();
+})();
+</script>
+</body>
+</html>
